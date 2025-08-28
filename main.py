@@ -2,6 +2,10 @@ from fastapi import FastAPI, Request
 
 app = FastAPI()
 
+@app.get("/")
+async def home():
+    return {"message": "FastAPI webhook listener is running 🚀"}
+
 @app.post("/")
 async def webhook_listener(request: Request):
     try:

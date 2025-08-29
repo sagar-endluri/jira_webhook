@@ -8,9 +8,9 @@ async def home():
 
 @app.post("/")
 async def webhook_listener(request: Request):
-    try:
-        body = await request.json()
-    except Exception:
-        body = {"error": "No JSON payload"}
-    print("🔔 Webhook received:", body)
-    return {"status": "ok", "data": body}
+    # Get the raw payload (bytes)
+    payload_bytes = await request.body()
+    # Decode to string for printing (assumes utf-8, which is typical for webhooks)
+    payload_str = payload_bytes.decode('utf-8', errors='replace')
+    print("🔔 Raw payload received:", payload_str)
+    return {"status": "ok", "received": bool(payload_str)}
